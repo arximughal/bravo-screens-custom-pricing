@@ -2,3 +2,69 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+@import url('../slick/slick.css');
+@import url('../slick/slick-theme.css');
+
+.custom-slider-nav {
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 999;
+	font-size: 33px;
+	padding: 25px;
+	height: auto;
+	line-height: 0px;
+	background: none;
+	outline: none;
+	color: #333;
+}
+
+.custom-slider-prev {
+	right: 60px;
+}
+
+.slick-list {
+	padding-top: 55px !important;
+}
+
+.bs_review_item {
+	background: white;
+	padding: 25px;
+	position: relative;
+	font-weight: bold;
+	text-align: center;
+}
+
+.bs_review_item::before {
+	content: '\00275d';
+	position: absolute;
+	font-size: 68px;
+	color: #000;
+	opacity: 0.2;
+	top: -20px;
+	left: -5px;
+	font-weight: normal;
+}
+
+.bs_author_details {
+	display: flex;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+}
+
+.bs_author_details span img {
+	width: 40px;
+	height: 40px;
+	border: 1px transparent;
+	border-radius: 50%;
+}
+
+.bs_author_details p {
+	padding-bottom: 0;
+	margin-bottom: 0;
+	text-transform: uppercase;
+	font-weight: normal;
+	margin-left: 10px;
+}

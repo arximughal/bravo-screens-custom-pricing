@@ -28,5 +28,56 @@
 	 * Although scripts in the WordPress core, Plugins and Themes may be
 	 * practising this, we should strive to set a better example in our own work.
 	 */
+	
+	$.getScript('https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js', function()
+	{
+		// $('.bs_custom_reviews').slick({
+		// 	infinite: true,
+		// 	slidesToShow: 3,
+		// 	slidesToScroll: 3
+		// });
+		
+		$('.bs_custom_reviews').slick({
+			dots: false,
+			infinite: true,
+			speed: 300,
+			slidesToShow: 3,
+			slidesToScroll: 1,
+			autoplay: true,
+			arrows: true,
+			prevArrow: '<button type="button" class="custom-slider-nav custom-slider-prev">&#x8b;</button>',
+			nextArrow: '<button type="button" class="custom-slider-nav custom-slider-next">&#x9b;</button>',
+			//autoplaySpeed: 5000,
+			pauseOnHover: true,
+			responsive: [
+				{
+					breakpoint: 1024,
+					settings: {
+						slidesToShow: 3,
+						slidesToScroll: 3,
+						infinite: true,
+						dots: true
+					}
+				},
+				{
+					breakpoint: 600,
+					settings: {
+						slidesToShow: 2,
+						slidesToScroll: 2
+					}
+				},
+				{
+					breakpoint: 480,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1
+					}
+				}
+				// You can unslick at a given breakpoint now by adding:
+				// settings: "unslick"
+				// instead of a settings object
+			]
+		});
+	});
 
 })( jQuery );

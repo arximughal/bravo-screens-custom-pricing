@@ -167,4 +167,6 @@ function woocommerce_custom_product_add_to_cart_text() {
 	return __( 'Buy Now', 'woocommerce' );
 }
 
+include_once ( plugin_dir_path( __FILE__ ) . 'includes/bs-custom-reviews.php' );
+
 run_bravo_screens_custom_pricing();
