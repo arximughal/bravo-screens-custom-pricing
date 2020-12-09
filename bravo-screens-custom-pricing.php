@@ -16,7 +16,7 @@
  * Plugin Name:       BravoScreens Custom Pricing
  * Plugin URI:        bravo-screens-custom-pricing
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
- * Version:           1.0.0
+ * Version:           2.0.0
  * Author:            Muhammad Arslan Aslam
  * Author URI:        https://arslanaslam.me
  * License:           GPL-2.0+
