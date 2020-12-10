@@ -29,6 +29,9 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 	
+	console.log('changing to list view instead of grid view');
+	$('.woocommerce ul.products').removeClass('grid').addClass('list');
+	
 	$.getScript('https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js', function()
 	{
 		// $('.bs_custom_reviews').slick({
