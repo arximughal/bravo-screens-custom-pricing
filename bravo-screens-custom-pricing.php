@@ -21,7 +21,7 @@
  * Author URI:        https://arslanaslam.me
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       bravo-screens-custom-pricing
+ * Text Domain:       https://arslanaslam.me
  * Domain Path:       /languages
  */
 
