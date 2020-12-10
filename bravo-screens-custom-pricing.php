@@ -156,14 +156,23 @@ function bscp_woocommerce_locate_template( $template, $template_name, $template_
 }
 
 // To change add to cart text on single product page
-add_filter( 'woocommerce_product_single_add_to_cart_text', 'woocommerce_custom_single_add_to_cart_text' );
+add_filter( 'woocommerce_product_single_add_to_cart_text', 'woocommerce_custom_single_add_to_cart_text', -1 );
 function woocommerce_custom_single_add_to_cart_text() {
+	global $product;
+	
+	$product_type = $product->product_type;
+	
 	return __( 'Buy Now', 'woocommerce' );
 }
 
 // To change add to cart text on product archives(Collection) page
-add_filter( 'woocommerce_product_add_to_cart_text', 'woocommerce_custom_product_add_to_cart_text' );
+add_filter( 'woocommerce_product_add_to_cart_text', 'woocommerce_custom_product_add_to_cart_text', -1 );
+add_filter( 'pewc_filter_view_product_text', 'woocommerce_custom_product_add_to_cart_text', -1 );
 function woocommerce_custom_product_add_to_cart_text() {
+	global $product;
+	
+	$product_type = $product->product_type;
+	
 	return __( 'Buy Now', 'woocommerce' );
 }
 

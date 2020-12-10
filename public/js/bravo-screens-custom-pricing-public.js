@@ -37,6 +37,8 @@
 		// 	slidesToScroll: 3
 		// });
 		
+		console.log('slick slider loaded');
+		
 		$('.bs_custom_reviews').slick({
 			dots: false,
 			infinite: true,
