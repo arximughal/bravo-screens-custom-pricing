@@ -77,10 +77,10 @@ require plugin_dir_path(__FILE__) . 'includes/class-bravo-screens-custom-pricing
  */
 function run_bravo_screens_custom_pricing()
 {
-	
+
 	$plugin = new Bravo_Screens_Custom_Pricing();
 	$plugin->run();
-	
+
 }
 
 
@@ -127,30 +127,30 @@ function bscp_plugin_path() {
 
 function bscp_woocommerce_locate_template( $template, $template_name, $template_path ) {
 	global $woocommerce;
-	
+
 	$_template = $template;
-	
+
 	if ( ! $template_path ) $template_path = $woocommerce->template_url;
-	
+
 	$plugin_path  = bscp_plugin_path() . '/woocommerce/';
-	
+
 	// Look within passed path within the theme - this is priority
 	$template = locate_template(
-		
+
 		array(
 			$template_path . $template_name,
 			$template_name
 		)
 	);
-	
+
 	// Modification: Get the template from this plugin, if it exists
 	if ( ! $template && file_exists( $plugin_path . $template_name ) )
 		$template = $plugin_path . $template_name;
-	
+
 	// Use default template
 	if ( ! $template )
 		$template = $_template;
-	
+
 	// Return what we found
 	return $template;
 }
@@ -159,9 +159,9 @@ function bscp_woocommerce_locate_template( $template, $template_name, $template_
 add_filter( 'woocommerce_product_single_add_to_cart_text', 'woocommerce_custom_single_add_to_cart_text', -1 );
 function woocommerce_custom_single_add_to_cart_text() {
 	global $product;
-	
+
 	$product_type = $product->product_type;
-	
+
 	return __( 'Buy Now', 'woocommerce' );
 }
 
@@ -170,12 +170,98 @@ add_filter( 'woocommerce_product_add_to_cart_text', 'woocommerce_custom_product_
 add_filter( 'pewc_filter_view_product_text', 'woocommerce_custom_product_add_to_cart_text', -1 );
 function woocommerce_custom_product_add_to_cart_text() {
 	global $product;
-	
+
 	$product_type = $product->product_type;
-	
+
 	return __( 'Buy Now', 'woocommerce' );
 }
 
 include_once ( plugin_dir_path( __FILE__ ) . 'includes/bs-custom-reviews.php' );
+
+// CUSTOM SECOND DESCRIPTION FIELD FOR PRODUCT CATEGORIES
+
+add_action( 'product_cat_add_form_fields', 'bscp_wp_editor_add', 10, 2 );
+
+function bscp_wp_editor_add() {
+    ?>
+    <div class="form-field">
+        <label for="seconddesc"><?php echo __( 'Second Description', 'woocommerce' ); ?></label>
+
+      <?php
+      $settings = array(
+         'textarea_name' => 'seconddesc',
+         'quicktags' => array( 'buttons' => 'em,strong,link' ),
+         'tinymce' => array(
+            'theme_advanced_buttons1' => 'bold,italic,strikethrough,separator,bullist,numlist,separator,blockquote,separator,justifyleft,justifycenter,justifyright,separator,link,unlink,separator,undo,redo,separator',
+            'theme_advanced_buttons2' => '',
+         ),
+         'editor_css' => '<style>#wp-excerpt-editor-container .wp-editor-area{height:175px; width:100%;}</style>',
+      );
+
+      wp_editor( '', 'seconddesc', $settings );
+      ?>
+
+        <p class="description"><?php echo __( 'This is the description that goes BELOW products on the category page', 'woocommerce' ); ?></p>
+    </div>
+    <?php
+}
+
+// ---------------
+// 2. Display field on "Edit product category" admin page
+
+add_action( 'product_cat_edit_form_fields', 'bscp_wp_editor_edit', 10, 2 );
+
+function bscp_wp_editor_edit( $term ) {
+    $second_desc = htmlspecialchars_decode( get_woocommerce_term_meta( $term->term_id, 'seconddesc', true ) );
+    ?>
+    <tr class="form-field">
+        <th scope="row" valign="top"><label for="second-desc"><?php echo __( 'Second Description', 'woocommerce' ); ?></label></th>
+        <td>
+            <?php
+
+         $settings = array(
+            'textarea_name' => 'seconddesc',
+            'quicktags' => array( 'buttons' => 'em,strong,link' ),
+            'tinymce' => array(
+               'theme_advanced_buttons1' => 'bold,italic,strikethrough,separator,bullist,numlist,separator,blockquote,separator,justifyleft,justifycenter,justifyright,separator,link,unlink,separator,undo,redo,separator',
+               'theme_advanced_buttons2' => '',
+            ),
+            'editor_css' => '<style>#wp-excerpt-editor-container .wp-editor-area{height:175px; width:100%;}</style>',
+         );
+
+         wp_editor( $second_desc, 'seconddesc', $settings );
+         ?>
+
+            <p class="description"><?php echo __( 'This is the description that goes BELOW products on the category page', 'woocommerce' ); ?></p>
+        </td>
+    </tr>
+    <?php
+}
+
+// ---------------
+// 3. Save field @ admin page
+
+add_action( 'edit_term', 'bscp_save_wp_editor', 10, 3 );
+add_action( 'created_term', 'bscp_save_wp_editor', 10, 3 );
+
+function bscp_save_wp_editor( $term_id, $tt_id = '', $taxonomy = '' ) {
+   if ( isset( $_POST['seconddesc'] ) && 'product_cat' === $taxonomy ) {
+      update_woocommerce_term_meta( $term_id, 'seconddesc', esc_attr( $_POST['seconddesc'] ) );
+   }
+}
+
+// ---------------
+// 4. Display field under products @ Product Category pages
+
+add_action( 'woocommerce_after_shop_loop', 'bscp_display_wp_editor_content', 5 );
+
+function bscp_display_wp_editor_content() {
+   if ( is_product_taxonomy() ) {
+      $term = get_queried_object();
+      if ( $term && ! empty( get_woocommerce_term_meta( $term->term_id, 'seconddesc', true ) ) ) {
+         echo '<p class="term-description">' . wc_format_content( htmlspecialchars_decode( get_woocommerce_term_meta( $term->term_id, 'seconddesc', true ) ) ) . '</p>';
+      }
+   }
+}
 
 run_bravo_screens_custom_pricing();
