@@ -81,7 +81,7 @@ function bscp_display_wp_editor_content_fifth() {
    if ( is_product_taxonomy() ) {
       $term = get_queried_object();
       global $bs_query_counter;
-      if ( $term && ! empty( get_woocommerce_term_meta( $term->term_id, 'fifthdesc', true ) ) && $bs_query_counter === 2) {
+      if ( $term && ! empty( get_woocommerce_term_meta( $term->term_id, 'fifthdesc', true ) ) && $bs_query_counter === 3) {
          echo '<p class="term-description">' . wc_format_content( htmlspecialchars_decode( get_woocommerce_term_meta( $term->term_id, 'fifthdesc', true ) ) ) . '</p>';
       }
    }
