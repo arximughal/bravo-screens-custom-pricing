@@ -6,7 +6,10 @@
 
 function bs_custom_reviews_slider() {
 	global $product;
-	$id = $product->id;
+	$id = 0;
+	if (!empty($product)) {
+		$id = $product->id;
+	}
 	
 	echo $id.",";
 	$args = array ('post_type' => 'product', 'post_id' => $id, 'number' => 10, 'order_by' => 'comment_date');
